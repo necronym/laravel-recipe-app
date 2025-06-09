@@ -15,6 +15,11 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+
+                    <!-- ADDED: Browse Recipes link -->
+                    <x-nav-link :href="route('recipes.browse')" :active="request()->routeIs('recipes.browse')">
+                        {{ __('Browse Recipes') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -55,6 +60,11 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+
+            <!-- ADDED: Responsive Browse Recipes link -->
+            <x-responsive-nav-link :href="route('recipes.browse')" :active="request()->routeIs('recipes.browse')">
+                {{ __('Browse Recipes') }}
             </x-responsive-nav-link>
         </div>
 
