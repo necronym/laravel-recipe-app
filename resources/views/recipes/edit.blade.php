@@ -4,25 +4,29 @@
     </x-slot>
 
     <div class="py-6 max-w-xl">
-        <form method="POST" action="{{ route('recipes.update', $recipe) }}" enctype="multipart/form-data" class="space-y-4">
+        <form method="POST" action="{{ route('recipes.update', $recipe) }}" enctype="multipart/form-data" class="space-y-6">
             @csrf
             @method('PUT')
 
+            <!-- Name -->
             <div>
-                <label for="Name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Recipe Name</label>
-                <input type="text" name="Name" value="{{ $recipe->Name }}" class="w-full border rounded p-2 dark:bg-gray-800 dark:text-white" required>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Recipe Name</label>
+                <input type="text" name="Name" value="{{ $recipe->Name }}" required class="w-full border rounded p-2 dark:bg-gray-800 dark:text-white">
             </div>
 
+            <!-- Instructions -->
             <div>
-                <label for="Instructions" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Preparation Steps</label>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Preparation Steps</label>
                 <textarea name="Instructions" rows="5" required class="w-full border rounded p-2 dark:bg-gray-800 dark:text-white">{{ $recipe->Instructions }}</textarea>
             </div>
 
+            <!-- Time -->
             <div>
-                <label for="Time" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Time (minutes)</label>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Time (minutes)</label>
                 <input type="number" name="Time" value="{{ $recipe->Time }}" class="w-full border rounded p-2 dark:bg-gray-800 dark:text-white">
             </div>
 
+            <!-- Current Image -->
             <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Current Image</label>
                 @if ($recipe->Image)
@@ -33,7 +37,52 @@
                 <input type="file" name="Image" class="mt-2">
             </div>
 
+            <!-- Categories -->
+            @foreach($categoryTypes as $type)
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mt-4">{{ $type->Name }}</label>
+                    <select name="categories[]" multiple class="tom-select w-full">
+                        @foreach($type->categories as $category)
+                            <option value="{{ $category->CategoryID }}"
+                                @if(in_array($category->CategoryID, $selectedCategories)) selected @endif>
+                                {{ $category->Name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+            @endforeach
+
+            <!-- Ingredients -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mt-4">Ingredients</label>
+                <select name="ingredients[]" multiple class="tom-select w-full">
+                    @foreach($ingredients as $ingredient)
+                        <option value="{{ $ingredient->IngredientID }}"
+                            @if(in_array($ingredient->IngredientID, $selectedIngredients)) selected @endif>
+                            {{ $ingredient->Name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
             <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Update</button>
         </form>
     </div>
+
+    @push('scripts')
+        <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
+        <script>
+            document.querySelectorAll('.tom-select').forEach(el => {
+                new TomSelect(el, {
+                    plugins: ['remove_button'],
+                    create: false,
+                    persist: false
+                });
+            });
+        </script>
+    @endpush
+
+    @push('styles')
+        <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
+    @endpush
 </x-app-layout>

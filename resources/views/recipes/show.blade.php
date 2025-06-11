@@ -74,6 +74,33 @@
         <!-- Recipe Time -->
         <p><strong>Time:</strong> {{ $recipe->Time }} minutes</p>
 
+        <!-- Recipe Categories -->
+        @if($recipe->categories->count())
+            <div class="mt-4">
+                <h4 class="text-md font-semibold">Categories</h4>
+                <ul class="list-disc ml-5 text-gray-700 dark:text-gray-300">
+                    @foreach ($recipe->categories->groupBy('categoryType.Name') as $type => $group)
+                        <li>
+                            <strong>{{ $type }}:</strong>
+                            {{ $group->pluck('Name')->join(', ') }}
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <!-- Recipe Ingredients -->
+        @if($recipe->ingredients->count())
+            <div class="mt-4">
+                <h4 class="text-md font-semibold">Ingredients</h4>
+                <ul class="list-disc ml-5 text-gray-700 dark:text-gray-300">
+                    @foreach($recipe->ingredients as $ingredient)
+                        <li>{{ $ingredient->Name }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <!-- Recipe Edit or Delete -->
         @auth
             @if (Auth::id() === $recipe->UserID)

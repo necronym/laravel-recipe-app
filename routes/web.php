@@ -12,10 +12,10 @@ Route::get('/', [RecipeController::class, 'index'])->name('home');
 Route::get('/dashboard', [ProfileController::class, 'dashboard'])->middleware(['auth'])->name('dashboard');
 
 
-// PUBLIC
+// PUBLIC INDEX
 Route::get('/recipes', [RecipeController::class, 'index'])->name('recipes.index');
 
-// AUTHENTICATED
+// AUTHENTICATED INDEX
 Route::middleware(['auth'])->group(function () {
     Route::get('/recipes/create', [RecipeController::class, 'create'])->name('recipes.create');
     Route::post('/recipes', [RecipeController::class, 'store'])->name('recipes.store');
@@ -24,7 +24,10 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/recipes/{recipe}', [RecipeController::class, 'destroy'])->name('recipes.destroy');
 });
 
-// PUBLIC
+// Browse Recipes
+Route::view('/recipes/browse', 'recipes.browse')->name('recipes.browse');
+
+// PUBLIC INDEX 2
 Route::get('/recipes/{recipe}', [RecipeController::class, 'show'])->name('recipes.show');
 
 // Comments
@@ -54,6 +57,5 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-Route::view('/recipes/browse', 'recipes.browse')->name('recipes.browse');
 
 require __DIR__.'/auth.php';
