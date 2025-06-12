@@ -1,89 +1,86 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200">My Dashboard</h2>
+        <h2 class="font-semibold text-2xl text-gray-800 dark:text-white">My Dashboard</h2>
     </x-slot>
 
-    <div class="py-8 max-w-4xl mx-auto space-y-8">
-        <!-- User Info -->
-        <div class="flex items-center space-x-4">
+    <div class="py-10 max-w-5xl mx-auto space-y-10 px-4">
+        <!-- User Info Card -->
+        <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6 flex items-center space-x-6">
             @if($user->Avatar)
-                <img src="{{ asset('storage/' . $user->Avatar) }}" class="w-12 h-12 rounded-5 object-cover border">
+                <img src="{{ asset('storage/' . $user->Avatar) }}" alt="Avatar" class="w-16 h-16 rounded-full object-cover border-2 border-gray-300 dark:border-gray-700">
             @else
-                <div class="w-12 h-12 rounded-5 bg-gray-300"></div>
+                <div class="w-16 h-16 rounded-full bg-gray-300 dark:bg-gray-700"></div>
             @endif
 
             <div>
-                <h3 class="text-2xl font-bold text-gray-800 dark:text-white">{{ $user->name }}</h3>
-                <p class="text-sm text-gray-600 dark:text-gray-300">{{ $user->email }}</p>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white">{{ $user->name }}</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400">{{ $user->email }}</p>
                 @if($user->Bio)
-                    <p class="mt-2 text-gray-700 dark:text-gray-400">{{ $user->Bio }}</p>
+                    <p class="mt-2 text-gray-700 dark:text-gray-300 text-sm">{{ $user->Bio }}</p>
                 @endif
             </div>
         </div>
 
-        <!-- User Actions -->
-        <div class="max-w-4xl mx-auto py-6 space-y-6">
-            <!-- Recent Comments -->
-            <div>
-                <h3 class="text-lg font-semibold text-gray-800">Your Recent Comments</h3>
-                <ul class="list-disc ml-6 text-gray-700">
-                    @forelse($recentComments as $comment)
-                        <li>
-                            On 
-                            <a href="{{ route('recipes.show', $comment->recipe->RecipeID) }}" class="text-blue-600 hover:underline">
-                                {{ $comment->recipe->Name }}
-                            </a>: "{{ Str::limit($comment->Content, 50) }}" 
-                            ({{ $comment->created_at ? $comment->created_at->diffForHumans() : 'Unknown time' }})
-                        </li>
-                    @empty
-                        <li>No comments added yet.</li>
-                    @endforelse
-                </ul>
-            </div>
+        <!-- Recent Comments -->
+        <div class="space-y-4">
+            <h3 class="text-xl font-semibold text-gray-800 dark:text-white">Your Recent Comments</h3>
+            <ul class="space-y-2">
+                @forelse($recentComments as $comment)
+                    <li class="text-gray-700 dark:text-gray-300">
+                        On 
+                        <a href="{{ route('recipes.show', $comment->recipe->RecipeID) }}" class="text-blue-600 hover:underline">
+                            {{ $comment->recipe->Name }}
+                        </a>: 
+                        <span class="italic">"{{ Str::limit($comment->Content, 50) }}"</span> 
+                        <span class="text-sm text-gray-500">({{ $comment->created_at ? $comment->created_at->diffForHumans() : 'Unknown time' }})</span>
+                    </li>
+                @empty
+                    <li class="text-gray-500 italic">No comments added yet.</li>
+                @endforelse
+            </ul>
+        </div>
 
-            <!-- Recent Ratings -->
-            <div>
-                <h3 class="text-lg font-semibold text-gray-800">Your Recent Ratings</h3>
-                <ul class="list-disc ml-6 text-gray-700">
-                    @forelse($recentRatings as $rating)
-                        <li>
-                            Rated 
-                            <a href="{{ route('recipes.show', $rating->recipe->RecipeID) }}" class="text-blue-600 hover:underline">
-                                {{ $rating->recipe->Name }}
-                            </a>:
-                            {{ $rating->Score }}/5 
-                            ({{ $rating->created_at ? $rating->created_at->diffForHumans() : 'Unknown time' }})
-                        </li>
-                    @empty
-                        <li>No ratings given yet.</li>
-                    @endforelse
-                </ul>
-            </div>
+        <!-- Recent Ratings -->
+        <div class="space-y-4">
+            <h3 class="text-xl font-semibold text-gray-800 dark:text-white">Your Recent Ratings</h3>
+            <ul class="space-y-2">
+                @forelse($recentRatings as $rating)
+                    <li class="text-gray-700 dark:text-gray-300">
+                        Rated 
+                        <a href="{{ route('recipes.show', $rating->recipe->RecipeID) }}" class="text-blue-600 hover:underline">
+                            {{ $rating->recipe->Name }}
+                        </a>: 
+                        <span class="text-yellow-500 font-semibold">{{ $rating->Score }}/5</span> 
+                        <span class="text-sm text-gray-500">({{ $rating->created_at ? $rating->created_at->diffForHumans() : 'Unknown time' }})</span>
+                    </li>
+                @empty
+                    <li class="text-gray-500 italic">No ratings given yet.</li>
+                @endforelse
+            </ul>
         </div>
 
         <!-- User's Recipes -->
         <div>
-            <h4 class="text-xl font-semibold mb-4 text-gray-800 dark:text-white">My Recipes</h4>
+            <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">My Recipes</h3>
 
             @if($recipes->count())
-                <div class="grid gap-6 sm:grid-cols-2">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     @foreach ($recipes as $recipe)
-                        <a href="{{ route('recipes.show', $recipe) }}" class="block p-4 bg-white dark:bg-gray-800 border rounded hover:shadow">
-                            <h5 class="text-lg font-semibold">{{ $recipe->Name }}</h5>
-                            <p class="text-sm text-gray-600 dark:text-gray-300">
-                                Time: {{ $recipe->Time }} min
-                            </p>
+                        <a href="{{ route('recipes.show', $recipe) }}" class="bg-white dark:bg-gray-800 p-5 rounded-lg shadow hover:shadow-lg transition border border-gray-200 dark:border-gray-700 block">
+                            <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-1">{{ $recipe->Name }}</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Time: {{ $recipe->Time }} min</p>
                             @if ($recipe->ratings_avg_score)
-                                <p class="text-sm text-yellow-500">★ {{ number_format($recipe->ratings_avg_score, 1) }}/5</p>
+                                <p class="mt-1 text-sm text-yellow-500">★ {{ number_format($recipe->ratings_avg_score, 1) }}/5</p>
                             @else
-                                <p class="text-sm text-gray-400 italic">No ratings yet</p>
+                                <p class="mt-1 text-sm text-gray-400 italic">No ratings yet</p>
                             @endif
                         </a>
                     @endforeach
                 </div>
             @else
-                <p class="text-gray-500 dark:text-gray-400">You haven’t created any recipes yet.</p>
+                <p class="text-gray-500 dark:text-gray-400 italic">You haven’t created any recipes yet.</p>
             @endif
         </div>
     </div>
 </x-app-layout>
+
