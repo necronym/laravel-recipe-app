@@ -1,3 +1,10 @@
+<!-- resources/views/components/input-error.blade.php -->
+
+<!--
+    Displays validation error messages for form inputs.
+    Expects a 'messages' prop, which can be a string or an array of strings.
+-->
+
 @props(['messages'])
 
 @if ($messages)
