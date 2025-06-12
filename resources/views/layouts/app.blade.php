@@ -16,22 +16,60 @@
 
         <!-- Tom Select Styles -->
         @stack('styles')
+
+        <style>
+            /* Sticky top nav */
+            .sticky-nav {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                z-index: 50;
+                background-color: white;
+                border-bottom: 1px solid #e5e7eb; /* Tailwind's gray-200 */
+            }
+
+            .page-container {
+                display: flex;
+                margin-top: 70px; /* offset sticky navbar height */
+                padding: 1rem;
+            }
+
+            .sidebar {
+                position: sticky;
+                top: 90px;
+                width: 250px;
+                height: fit-content;
+                padding: 1rem;
+                background-color: #f9fafb; /* Tailwind gray-50 */
+                border-left: 1px solid #e5e7eb;
+                flex-shrink: 0;
+            }
+
+            .main-content {
+                flex: 1;
+                padding-right: 2rem;
+            }
+        </style>
     </head>
     <body class="font-sans antialiased bg-white text-black">
         <div class="min-h-screen">
-            @include('layouts.navigation')
+            <!-- Sticky Navigation -->
+            <div class="sticky-nav">
+                @include('layouts.navigation')
+            </div>
 
-            <!-- Page Heading -->
+            <!-- Optional Page Header -->
             @isset($header)
-                <header class="bg-white shadow">
+                <header class="bg-white shadow mt-[70px]">
                     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                         {{ $header }}
                     </div>
                 </header>
             @endisset
 
-            <!-- Page Content -->
-            <main>
+            <!-- Page Content: Sidebar + Main -->
+            <main class="page-container">
                 {{ $slot }}
             </main>
         </div>
