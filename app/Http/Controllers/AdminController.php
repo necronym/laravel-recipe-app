@@ -18,4 +18,13 @@ class AdminController extends Controller
 
         return redirect()->route('home')->with('success', 'User has been banned.');
     }
+    
+    public function reports()
+    {
+        return view('admin.reports', [
+            'recipeReports' => Report::whereNotNull('RecipeID')->with('recipe')->get(),
+            'commentReports' => Report::whereNotNull('CommentID')->with('comment.recipe')->get(),
+            'userReports' => Report::whereNotNull('UserID')->with('user')->get(),
+        ]);
+    }
 }

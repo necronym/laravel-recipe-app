@@ -100,6 +100,8 @@
                 </ul>
             </div>
         @endif
+        <!-- Recipe Reporting -->
+         <x-report-button type="recipe" :id="$recipe->RecipeID" />
 
         <!-- Recipe Edit or Delete -->
         @auth
@@ -144,7 +146,7 @@
                     </strong>: {{ $comment->Content }}
                 </p>
                 <p class="text-xs text-gray-500">{{ $comment->created_at }}</p>
-
+                <x-report-button type="comment" :id="$comment->CommentID" />
                 @auth
                     @if (Auth::id() === $comment->UserID || Auth::user()->RoleID === 1)
                         <div class="mt-2 space-x-2">

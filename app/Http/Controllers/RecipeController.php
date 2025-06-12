@@ -61,7 +61,7 @@ class RecipeController extends Controller
         $validated = $request->validate([
             'Name' => 'required|string|max:255',
             'Instructions' => 'required',
-            'Time' => 'nullable|integer',
+            'Time' => 'nullable|integer|min:0',
             'Image' => 'nullable|image|max:2048',
             'categories' => 'nullable|array',
             'ingredients' => 'nullable|array',
@@ -109,7 +109,7 @@ class RecipeController extends Controller
         $validated = $request->validate([
             'Name' => 'required|string|max:255',
             'Instructions' => 'required',
-            'Time' => 'nullable|integer',
+            'Time' => 'nullable|integer|min:0',
             'Image' => 'nullable|image|max:2048',
             'categories' => 'nullable|array',
             'ingredients' => 'nullable|array',

@@ -21,6 +21,46 @@
             </div>
         </div>
 
+        <!-- User Actions -->
+        <div class="max-w-4xl mx-auto py-6 space-y-6">
+            <!-- Recent Comments -->
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800">Your Recent Comments</h3>
+                <ul class="list-disc ml-6 text-gray-700">
+                    @forelse($recentComments as $comment)
+                        <li>
+                            On 
+                            <a href="{{ route('recipes.show', $comment->recipe->RecipeID) }}" class="text-blue-600 hover:underline">
+                                {{ $comment->recipe->Name }}
+                            </a>: "{{ Str::limit($comment->Content, 50) }}" 
+                            ({{ $comment->created_at ? $comment->created_at->diffForHumans() : 'Unknown time' }})
+                        </li>
+                    @empty
+                        <li>No comments added yet.</li>
+                    @endforelse
+                </ul>
+            </div>
+
+            <!-- Recent Ratings -->
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800">Your Recent Ratings</h3>
+                <ul class="list-disc ml-6 text-gray-700">
+                    @forelse($recentRatings as $rating)
+                        <li>
+                            Rated 
+                            <a href="{{ route('recipes.show', $rating->recipe->RecipeID) }}" class="text-blue-600 hover:underline">
+                                {{ $rating->recipe->Name }}
+                            </a>:
+                            {{ $rating->Score }}/5 
+                            ({{ $rating->created_at ? $rating->created_at->diffForHumans() : 'Unknown time' }})
+                        </li>
+                    @empty
+                        <li>No ratings given yet.</li>
+                    @endforelse
+                </ul>
+            </div>
+        </div>
+
         <!-- User's Recipes -->
         <div>
             <h4 class="text-xl font-semibold mb-4 text-gray-800 dark:text-white">My Recipes</h4>

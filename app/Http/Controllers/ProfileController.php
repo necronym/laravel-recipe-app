@@ -4,11 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\User;
+use App\Models\Recipe;
+use App\Models\Comment;
+use App\Models\Rating;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+
 
 class ProfileController extends Controller
 {
@@ -78,10 +82,31 @@ class ProfileController extends Controller
      */
     public function dashboard()
     {
-        $user = Auth::user();
-        $recipes = $user->recipes()->withAvg('ratings', 'Score')->get();
+        $user = auth()->user();
 
-        return view('profile.dashboard', compact('user', 'recipes'));
+        $recentComments = \App\Models\Comment::with('recipe')
+            ->where('UserID', $user->id)
+            ->latest()
+            ->take(5)
+            ->get();
+
+        $recentRatings = \App\Models\Rating::with('recipe')
+            ->where('UserID', $user->id)
+            ->latest()
+            ->take(5)
+            ->get();
+
+        // Fetch full list of user's recipes
+        $recipes = \App\Models\Recipe::withAvg('ratings', 'Score')
+            ->where('UserID', $user->id)
+            ->get();
+
+        return view('profile.dashboard', compact(
+            'user',
+            'recipes',
+            'recentComments',
+            'recentRatings'
+        ));
     }
 
     /**

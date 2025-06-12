@@ -70,4 +70,8 @@ class User extends Authenticatable
         return $this->hasMany(Recipe::class, 'UserID');
     }
 
+    public function comments() {
+        return $this->hasMany(Comment::class, 'UserID');
+    }
+
 }

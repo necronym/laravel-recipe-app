@@ -6,11 +6,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\RatingController;
+use App\Http\Controllers\ReportController;
 
 Route::get('/', [RecipeController::class, 'index'])->name('home');
 
 Route::get('/dashboard', [ProfileController::class, 'dashboard'])->middleware(['auth'])->name('dashboard');
-
 
 // PUBLIC INDEX
 Route::get('/recipes', [RecipeController::class, 'index'])->name('recipes.index');
@@ -24,8 +24,14 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/recipes/{recipe}', [RecipeController::class, 'destroy'])->name('recipes.destroy');
 });
 
-// Browse Recipes
-Route::view('/recipes/browse', 'recipes.browse')->name('recipes.browse');
+// ADMIN INDEX
+Route::middleware(['auth'])->post('/report', [ReportController::class, 'store'])->name('report');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/reports', [ReportController::class, 'index'])->name('admin.reports');
+    Route::post('/admin/reports/{id}/dismiss', [ReportController::class, 'dismiss'])->name('admin.reports.dismiss');
+});
+
 
 // PUBLIC INDEX 2
 Route::get('/recipes/{recipe}', [RecipeController::class, 'show'])->name('recipes.show');

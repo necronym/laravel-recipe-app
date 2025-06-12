@@ -16,10 +16,13 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
 
-                    <!-- ADDED: Browse Recipes link -->
-                    <x-nav-link :href="route('recipes.browse')" :active="request()->routeIs('recipes.browse')">
-                        {{ __('Browse Recipes') }}
-                    </x-nav-link>
+                    @auth
+                        @if(Auth::user()->RoleID === 1)
+                            <x-nav-link :href="route('admin.reports')" :active="request()->routeIs('admin.reports')">
+                                {{ __('Admin Panel') }}
+                            </x-nav-link>
+                        @endif
+                    @endauth
                 </div>
             </div>
 
@@ -62,11 +65,14 @@
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
 
-            <!-- ADDED: Responsive Browse Recipes link -->
-            <x-responsive-nav-link :href="route('recipes.browse')" :active="request()->routeIs('recipes.browse')">
-                {{ __('Browse Recipes') }}
-            </x-responsive-nav-link>
-        </div>
+            <!-- ADDED: Responsive Admin Panel link -->
+            @auth
+                @if(Auth::user()->RoleID === 1)
+                    <x-responsive-nav-link :href="route('admin.reports')" :active="request()->routeIs('admin.reports')">
+                        {{ __('Admin Panel') }}
+                    </x-responsive-nav-link>
+                @endif
+            @endauth
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">

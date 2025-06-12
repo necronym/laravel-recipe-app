@@ -3,6 +3,8 @@
         <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200">
             {{ $user->name }}'s Profile
         </h2>
+        <x-report-button type="user" :id="$user->id" />
+
         @auth
         @if(auth()->user()->RoleID === 1 && auth()->id() !== $user->id)
             <form method="POST" action="{{ route('admin.ban', $user->id) }}" onsubmit="return confirm('Are you sure you want to ban this user? This will delete their account, recipes, comments, and ratings.')">
