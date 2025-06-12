@@ -1,3 +1,5 @@
+<!-- resources/views/components/modal.blade.php -->
+
 @props([
     'name',
     'show' => false,
@@ -5,31 +7,36 @@
 ])
 
 @php
-$maxWidth = [
-    'sm' => 'sm:max-w-sm',
-    'md' => 'sm:max-w-md',
-    'lg' => 'sm:max-w-lg',
-    'xl' => 'sm:max-w-xl',
-    '2xl' => 'sm:max-w-2xl',
-][$maxWidth];
+    $maxWidth = [
+        'sm' => 'sm:max-w-sm',
+        'md' => 'sm:max-w-md',
+        'lg' => 'sm:max-w-lg',
+        'xl' => 'sm:max-w-xl',
+        '2xl' => 'sm:max-w-2xl',
+    ][$maxWidth];
 @endphp
 
 <div
     x-data="{
         show: @js($show),
         focusables() {
-            // All focusable element types...
-            let selector = 'a, button, input:not([type=\'hidden\']), textarea, select, details, [tabindex]:not([tabindex=\'-1\'])'
-            return [...$el.querySelectorAll(selector)]
-                // All non-disabled elements...
-                .filter(el => ! el.hasAttribute('disabled'))
+            let selector = 'a, button, input:not([type=\'hidden\']), textarea, select, details, [tabindex]:not([tabindex=\'-1\'])';
+            return [...$el.querySelectorAll(selector)].filter(el => !el.hasAttribute('disabled'));
         },
-        firstFocusable() { return this.focusables()[0] },
-        lastFocusable() { return this.focusables().slice(-1)[0] },
-        nextFocusable() { return this.focusables()[this.nextFocusableIndex()] || this.firstFocusable() },
-        prevFocusable() { return this.focusables()[this.prevFocusableIndex()] || this.lastFocusable() },
-        nextFocusableIndex() { return (this.focusables().indexOf(document.activeElement) + 1) % (this.focusables().length + 1) },
-        prevFocusableIndex() { return Math.max(0, this.focusables().indexOf(document.activeElement)) -1 },
+        firstFocusable() { return this.focusables()[0]; },
+        lastFocusable() { return this.focusables().slice(-1)[0]; },
+        nextFocusable() {
+            return this.focusables()[this.nextFocusableIndex()] || this.firstFocusable();
+        },
+        prevFocusable() {
+            return this.focusables()[this.prevFocusableIndex()] || this.lastFocusable();
+        },
+        nextFocusableIndex() {
+            return (this.focusables().indexOf(document.activeElement) + 1) % (this.focusables().length + 1);
+        },
+        prevFocusableIndex() {
+            return Math.max(0, this.focusables().indexOf(document.activeElement)) - 1;
+        },
     }"
     x-init="$watch('show', value => {
         if (value) {
@@ -49,6 +56,7 @@ $maxWidth = [
     class="fixed inset-0 overflow-y-auto px-4 py-6 sm:px-0 z-50"
     style="display: {{ $show ? 'block' : 'none' }};"
 >
+    <!-- Background Overlay -->
     <div
         x-show="show"
         class="fixed inset-0 transform transition-all"
@@ -63,6 +71,7 @@ $maxWidth = [
         <div class="absolute inset-0 bg-gray-500 dark:bg-gray-900 opacity-75"></div>
     </div>
 
+    <!-- Modal Panel -->
     <div
         x-show="show"
         class="mb-6 bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-xl transform transition-all sm:w-full {{ $maxWidth }} sm:mx-auto"
