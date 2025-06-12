@@ -7,6 +7,7 @@ use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\ContactController;
 
 Route::get('/', [RecipeController::class, 'index'])->name('home');
 
@@ -23,6 +24,14 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/recipes/{recipe}', [RecipeController::class, 'update'])->name('recipes.update');
     Route::delete('/recipes/{recipe}', [RecipeController::class, 'destroy'])->name('recipes.destroy');
 });
+
+// Dummy pages
+Route::view('/about-us', 'static.about')->name('about');
+Route::view('/rules', 'static.rules')->name('rules');
+
+// Contact page
+Route::get('/contact', [ContactController::class, 'show'])->name('contact');
+Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
 
 // ADMIN INDEX
 Route::middleware(['auth'])->post('/report', [ReportController::class, 'store'])->name('report');

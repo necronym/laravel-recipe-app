@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200">
-            All Recipes
+        <h2 class="text-xl font-semibold text-black-800 dark:text-black-200">
+            Available Recipes
         </h2>
     </x-slot>
 
@@ -80,7 +80,7 @@
                         @endforeach
                     </select>
 
-                    <button type="submit" class="mt-4 bg-blue-600 text-white px-3 py-2 rounded w-full hover:bg-blue-700">
+                    <button type="submit" class="mt-4 bg-blue-600 text-black px-3 py-2 rounded w-full hover:bg-blue-700">
                         Apply Filters
                     </button>
 
