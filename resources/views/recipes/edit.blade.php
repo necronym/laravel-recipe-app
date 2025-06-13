@@ -1,46 +1,46 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200">Edit Recipe</h2>
+        <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-800">Edit Recipe</h2>
     </x-slot>
 
-    <div class="py-6 max-w-xl">
-        <form method="POST" action="{{ route('recipes.update', $recipe) }}" enctype="multipart/form-data" class="space-y-6">
+    <div class="py-6">
+        <form method="POST" action="{{ route('recipes.update', $recipe) }}" enctype="multipart/form-data" class="space-y-6 max-w-2xl mx-auto">
             @csrf
             @method('PUT')
 
             <!-- Name -->
             <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Recipe Name</label>
-                <input type="text" name="Name" value="{{ $recipe->Name }}" required class="w-full border rounded p-2 dark:bg-gray-800 dark:text-white">
+                <label for="Name" class="block text-base font-medium text-gray-800">Recipe Name</label>
+                <input type="text" name="Name" value="{{ old('Name', $recipe->Name) }}" required class="w-full border rounded p-2 bg-white text-black" />
             </div>
 
             <!-- Instructions -->
             <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Preparation Steps</label>
-                <textarea name="Instructions" rows="5" required class="w-full border rounded p-2 dark:bg-gray-800 dark:text-white">{{ $recipe->Instructions }}</textarea>
+                <label for="Instructions" class="block text-base font-medium text-gray-800">Preparation Steps</label>
+                <textarea name="Instructions" required rows="5" class="w-full border rounded p-2 bg-white text-black">{{ old('Instructions', $recipe->Instructions) }}</textarea>
             </div>
 
             <!-- Time -->
             <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Time (minutes)</label>
-                <input type="number" name="Time" value="{{ $recipe->Time }}" class="w-full border rounded p-2 dark:bg-gray-800 dark:text-white">
+                <label for="Time" class="block text-base font-medium text-gray-800">Time (minutes)</label>
+                <input type="number" name="Time" value="{{ old('Time', $recipe->Time) }}" class="w-full border rounded p-2 bg-white text-black" />
             </div>
 
             <!-- Current Image -->
             <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Current Image</label>
+                <label class="block text-base font-medium text-gray-800">Current Image</label>
                 @if ($recipe->Image)
                     <img src="{{ asset('storage/recipes/' . $recipe->Image) }}" width="200" class="mb-2 rounded shadow">
                 @else
                     <p class="text-sm text-gray-500">No image uploaded.</p>
                 @endif
-                <input type="file" name="Image" class="mt-2">
+                <input type="file" name="Image" class="w-full" />
             </div>
 
             <!-- Categories -->
             @foreach($categoryTypes as $type)
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mt-4">{{ $type->Name }}</label>
+                    <label class="block text-base font-medium text-gray-800 mt-4">{{ $type->Name }}</label>
                     <select name="categories[]" multiple class="tom-select w-full">
                         @foreach($type->categories as $category)
                             <option value="{{ $category->CategoryID }}"
@@ -54,7 +54,7 @@
 
             <!-- Ingredients -->
             <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mt-4">Ingredients</label>
+                <label class="block text-base font-medium text-gray-800 mt-4">Ingredients</label>
                 <select name="ingredients[]" multiple class="tom-select w-full">
                     @foreach($ingredients as $ingredient)
                         <option value="{{ $ingredient->IngredientID }}"
@@ -65,7 +65,9 @@
                 </select>
             </div>
 
-            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Update</button>
+            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                Update Recipe
+            </button>
         </form>
     </div>
 

@@ -23,13 +23,15 @@
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </div>
 
-        <!-- Bio -->
+       <!-- Bio -->
         <div>
             <x-input-label for="Bio" :value="__('Bio')" />
-            <textarea id="bio" name="Bio" rows="4"
-                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm dark:bg-gray-800 dark:text-white">
-                {{ old('Bio', $user->Bio) }}
-            </textarea>
+            <textarea
+                id="bio"
+                name="Bio"
+                rows="4"
+                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm bg-white text-gray-800 p-2 leading-snug resize-y"
+            >{{ trim(old('Bio', $user->Bio)) }}</textarea>
             <x-input-error class="mt-2" :messages="$errors->get('Bio')" />
         </div>
 

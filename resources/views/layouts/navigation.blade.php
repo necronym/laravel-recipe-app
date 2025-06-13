@@ -39,12 +39,17 @@
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 @auth
                     <!-- Authenticated: show Profile, Add Recipe, Logout -->
-                    <a href="{{ route('recipes.create') }}" class="text-sm text-gray-700 dark:text-gray-200 hover:underline me-4">Add Recipe</a>
-                    <a href="{{ route('profile.edit') }}" class="text-sm text-gray-700 dark:text-gray-200 hover:underline me-4">Profile Settings</a>
-
+                    <x-nav-link :href="route('recipes.create')" :active="request()->routeIs('recipes.create')" class="me-4">
+                        Add Recipe
+                    </x-nav-link>
+                    <x-nav-link :href="route('profile.edit')" :active="request()->routeIs('profile.edit')" class="me-4">
+                        Profile Settings
+                    </x-nav-link>
                     <form method="POST" action="{{ route('logout') }}" class="inline">
                         @csrf
-                        <button type="submit" class="text-sm text-red-600 hover:underline">Logout</button>
+                        <button type="submit" class="text-red-600 hover:text-red-800 font-semibold bg-transparent border border-red-500 hover:border-red-700 rounded px-3 py-1 m-0 cursor-pointer outline-none focus:outline-red-600 focus:ring-2 focus:ring-red-300 transition">
+                            Logout
+                        </button>
                     </form>
                 @endauth
 

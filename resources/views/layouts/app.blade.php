@@ -17,7 +17,7 @@
         <!-- Tom Select Styles -->
         @stack('styles')
     </head>
-    <body class="font-sans antialiased bg-white text-black">
+    <body x-data class="font-sans antialiased bg-white text-black">
         <div class="min-h-screen">
             @include('layouts.navigation')
 

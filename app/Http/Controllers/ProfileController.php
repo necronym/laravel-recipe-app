@@ -99,7 +99,8 @@ class ProfileController extends Controller
         // Fetch full list of user's recipes
         $recipes = \App\Models\Recipe::withAvg('ratings', 'Score')
             ->where('UserID', $user->id)
-            ->get();
+            ->latest()
+            ->paginate(5);
 
         return view('profile.dashboard', compact(
             'user',
@@ -114,8 +115,12 @@ class ProfileController extends Controller
      */
     public function publicProfile($id)
     {
-        $user = User::with('recipes')->findOrFail($id);
-        return view('profile.public', compact('user'));
+        $user = User::findOrFail($id);
+        $recipes = $user->recipes()
+            ->withAvg('ratings', 'Score')
+            ->latest()
+            ->paginate(5);
+        return view('profile.public', compact('user', 'recipes'));
     }
 
     public function ban($id)
@@ -134,5 +139,5 @@ class ProfileController extends Controller
 
         return redirect('/')->with('success', 'User banned and deleted.');
     }
-
+    
 }

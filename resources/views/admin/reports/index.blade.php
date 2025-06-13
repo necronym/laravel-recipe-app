@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="text-xl font-semibold text-black">
-            Admin Panel - Reports
+            Report Management
         </h2>
     </x-slot>
 
@@ -10,7 +10,7 @@
         <div class="mb-10">
             <h3 class="text-lg font-bold mb-3 text-black">Reported Recipes</h3>
             @forelse($recipeReports as $report)
-                <div class="border border-brown-600 p-4 mb-3 rounded shadow-sm bg-[#e6d9c5]">
+                <div class="border border-gray-300 p-4 mb-3 rounded shadow-sm bg-gray-100">
                     <p class="text-black">
                         <strong>Recipe:</strong>
                         <a href="{{ route('recipes.show', $report->recipe) }}" class="text-blue-700 underline">
@@ -21,7 +21,7 @@
 
                     <form method="POST" action="{{ route('admin.reports.dismiss', $report->ReportID) }}" class="mt-2">
                         @csrf
-                        <button type="submit" class="text-sm px-3 py-1 bg-[#e6d9c5] text-black rounded hover:bg-[#d9cab8] border border-brown-600">
+                        <button type="submit" class="text-sm px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700">
                             Dismiss
                         </button>
                     </form>
@@ -35,7 +35,7 @@
         <div class="mb-10">
             <h3 class="text-lg font-bold mb-3 text-black">Reported Comments</h3>
             @forelse($commentReports as $report)
-                <div class="border border-brown-600 p-4 mb-3 rounded shadow-sm bg-[#e6d9c5]">
+                <div class="border border-gray-300 p-4 mb-3 rounded shadow-sm bg-gray-100">
                     <p class="text-black">
                         <strong>Comment:</strong> "{{ $report->comment->Content }}"
                         <br>
@@ -48,7 +48,7 @@
 
                     <form method="POST" action="{{ route('admin.reports.dismiss', $report->ReportID) }}" class="mt-2">
                         @csrf
-                        <button type="submit" class="text-sm px-3 py-1 bg-[#e6d9c5] text-black rounded hover:bg-[#d9cab8] border border-brown-600">
+                        <button type="submit" class="text-sm px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700">
                             Dismiss
                         </button>
                     </form>
@@ -62,7 +62,7 @@
         <div>
             <h3 class="text-lg font-bold mb-3 text-black">Reported Users</h3>
             @forelse($userReports as $report)
-                <div class="border border-brown-600 p-4 mb-3 rounded shadow-sm bg-[#e6d9c5]">
+                <div class="border border-gray-300 p-4 mb-3 rounded shadow-sm bg-gray-100">
                     <p class="text-black">
                         <strong>User:</strong>
                         <a href="{{ route('user.profile', $report->user->id) }}" class="text-blue-700 underline">
@@ -73,7 +73,7 @@
 
                     <form method="POST" action="{{ route('admin.reports.dismiss', $report->ReportID) }}" class="mt-2">
                         @csrf
-                        <button type="submit" class="text-sm px-3 py-1 bg-[#e6d9c5] text-black rounded hover:bg-[#d9cab8] border border-brown-600">
+                        <button type="submit" class="text-sm px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700">
                             Dismiss
                         </button>
                     </form>

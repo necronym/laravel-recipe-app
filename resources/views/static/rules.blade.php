@@ -1,9 +1,9 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="text-2xl font-bold text-gray-800">General Rules</h2>
+        <h2 class="text-xl font-semibold text-gray-800">Website Rules</h2>
     </x-slot>
 
-    <div class="max-w-3xl mx-auto py-10 space-y-6 text-gray-800 text-lg leading-relaxed">
+    <div class="max-w-4xl mx-auto py-10 space-y-6 px-6 md:px-12 mt-6 text-gray-800 text-lg leading-relaxed">
         <p>Welcome to <strong>RecipeGuru</strong>! We're happy to have you here. In order to maintain a healthy and enjoyable space for everyone, we kindly ask that you follow these community guidelines:</p>
 
         <ul class="space-y-6">

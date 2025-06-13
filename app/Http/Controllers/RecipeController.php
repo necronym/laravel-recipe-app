@@ -27,8 +27,11 @@ class RecipeController extends Controller
         }
 
         if ($request->filled('categories')) {
-            $query->whereHas('categories', function ($q) use ($request) {
-                $q->whereIn('categories.CategoryID', $request->categories);
+            // Flatten nested arrays into a flat array of IDs
+            $categoryIDs = collect($request->categories)->flatten()->all();
+
+            $query->whereHas('categories', function ($q) use ($categoryIDs) {
+                $q->whereIn('categories.CategoryID', $categoryIDs);
             });
         }
 
@@ -39,7 +42,7 @@ class RecipeController extends Controller
         }
 
         return view('recipes.index', [
-            'recipes' => $query->get(),
+            'recipes' => $query->paginate(12),
             'categoryTypes' => CategoryType::with('categories')->get(),
             'ingredients' => Ingredient::all(),
             'selectedCategories' => $request->categories ?? [],
@@ -90,8 +93,14 @@ class RecipeController extends Controller
 
     public function show(Recipe $recipe)
     {
-        return view('recipes.show', compact('recipe'));
+        $comments = $recipe->comments()->with('user')->paginate(5);
+
+        return view('recipes.show', [
+            'recipe' => $recipe,
+            'comments' => $comments,
+        ]);
     }
+
 
     public function edit(Recipe $recipe)
     {
@@ -131,7 +140,20 @@ class RecipeController extends Controller
 
     public function destroy(Recipe $recipe)
     {
+        // Detach categories & ingredients (pivot tables)
+        $recipe->categories()->detach();
+        $recipe->ingredients()->detach();
+
+        // Delete related comments
+        $recipe->comments()->delete();
+
+        // Delete related ratings
+        $recipe->ratings()->delete();
+
+        // Finally, delete the recipe
         $recipe->delete();
+
         return redirect()->route('recipes.index')->with('success', 'Recipe deleted!');
     }
+
 }

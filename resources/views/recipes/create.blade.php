@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200">Create Recipe</h2>
+        <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-800">Create Recipe</h2>
     </x-slot>
 
     <div class="py-6">
@@ -9,32 +9,32 @@
 
             <!-- Name -->
             <div>
-                <label for="Name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Recipe Name</label>
-                <input type="text" name="Name" required class="w-full border rounded p-2 dark:bg-gray-800 dark:text-white" />
+                <label for="Name" class="block text-base font-medium text-gray-800">Recipe Name</label>
+                <input type="text" name="Name" required class="w-full border rounded p-2 bg-white text-black" />
             </div>
 
             <!-- Instructions -->
             <div>
-                <label for="Instructions" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Preparation Steps</label>
-                <textarea name="Instructions" required rows="5" class="w-full border rounded p-2 dark:bg-gray-800 dark:text-white"></textarea>
+                <label for="Instructions" class="block text-base font-medium text-gray-800">Preparation Steps</label>
+                <textarea name="Instructions" required rows="5" class="w-full border rounded p-2 bg-white text-black"></textarea>
             </div>
 
             <!-- Time -->
             <div>
-                <label for="Time" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Time (minutes)</label>
-                <input type="number" name="Time" class="w-full border rounded p-2 dark:bg-gray-800 dark:text-white" />
+                <label for="Time" class="block text-base font-medium text-gray-800">Time (minutes)</label>
+                <input type="number" name="Time" class="w-full border rounded p-2 bg-white text-black" />
             </div>
 
             <!-- Image -->
             <div>
-                <label for="Image" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Recipe Image</label>
+                <label for="Image" class="block text-base font-medium text-gray-800">Recipe Image</label>
                 <input type="file" name="Image" class="w-full" />
             </div>
 
             <!-- Categories -->
             @foreach($categoryTypes as $type)
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mt-4">{{ $type->Name }}</label>
+                    <label class="block text-base font-medium text-gray-800 mt-4">{{ $type->Name }}</label>
                     <select name="categories[]" multiple class="tom-select w-full">
                         @foreach($type->categories as $category)
                             <option value="{{ $category->CategoryID }}">{{ $category->Name }}</option>
@@ -45,7 +45,7 @@
 
             <!-- Ingredients -->
             <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mt-4">Ingredients</label>
+                <label class="block text-base font-medium text-gray-800 mt-4">Ingredients</label>
                 <select name="ingredients[]" multiple class="tom-select w-full">
                     @foreach($ingredients as $ingredient)
                         <option value="{{ $ingredient->IngredientID }}">{{ $ingredient->Name }}</option>
@@ -54,7 +54,7 @@
             </div>
 
             <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
-                Save Recipe
+                Create Recipe!
             </button>
         </form>
     </div>
